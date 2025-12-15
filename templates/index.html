@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Genre Prediction App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      margin: 0;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #1b1b1b;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.05);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 15px;
+      background: #2a2a2a;
+      color: #fff;
+      font-size: 15px;
+    }
+
+    textarea {
+      height: 120px;
+      resize: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #ff5c00;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #ff7a2b;
+    }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      background: #222;
+      display: none;
+    }
+
+    .loading {
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Movie Genre Predictor</h2>
+
+    <label>Movie Name</label>
+    <input id="title" placeholder="Enter movie name">
+
+    <label>Description</label>
+    <textarea id="description" placeholder="Enter movie description"></textarea>
+
+    <button onclick="predictGenre()">Predict Genre</button>
+
+    <div class="loading" id="loading">Predicting...</div>
+
+    <div class="result-box" id="resultBox">
+      <h3>Predicted Genre:</h3>
+      <p id="genreOutput"></p>
+    </div>
+  </div>
+
+  <script>
+    async function predictGenre() {
+      const title = document.getElementById("title").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const resultBox = document.getElementById("resultBox");
+      const loading = document.getElementById("loading");
+      const output = document.getElementById("genreOutput");
+
+      if (!title || !description) {
+        alert("Please enter both name and description");
+        return;
+      }
+
+      resultBox.style.display = "none";
+      loading.style.display = "block";
+
+      try {
+        const response = await fetch("YOUR_API_URL", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            product_title: title,
+            description: description
+          })
+        });
+
+        const data = await response.json();
+        loading.style.display = "none";
+
+        output.innerText = data.genre || "No genre predicted";
+        resultBox.style.display = "block";
+
+      } catch (error) {
+        loading.style.display = "none";
+        alert("Error contacting the API");
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
