@@ -4,8 +4,10 @@ beautifulsoup4
 lxml
 pandas
 numpy
-flask
 matplotlib
 seaborn
 nltk
+en-core-web-sm
+install spacy
 scikit-learn
+flask
