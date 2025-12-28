@@ -11,3 +11,4 @@ en-core-web-sm
 install spacy
 scikit-learn
 flask
+gensim
